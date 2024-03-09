@@ -3,14 +3,14 @@ name: DS Website Deployment
 on:
   push:
     branches:
-    - master
+      - master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2  # Use the latest version
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -19,5 +19,8 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-south-1
 
-    - name: Deploy static site to s3 bucket
+    - name: Display AWS CLI version
+      run: aws --version  # Add more debugging information
+
+    - name: Deploy static site to S3 bucket
       run: aws s3 sync . s3://mydswebsite --delete
